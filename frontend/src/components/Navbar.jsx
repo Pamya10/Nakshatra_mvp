@@ -37,9 +37,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#047C74] to-[#C68D28] rounded-lg flex items-center justify-center transform group-hover:scale-105 transition-transform duration-200">
-              <span className="text-white font-bold text-xl">N</span>
-            </div>
+            <img 
+              src="https://customer-assets.emergentagent.com/job_home-design-pune/artifacts/czpqaa5j_TRANSPARENT%20LOGO%20FOR%20MULTIPURPOSE%20USE%20%281%29.png"
+              alt="Nakshatra Interiors Logo"
+              className="h-12 w-auto transform group-hover:scale-105 transition-transform duration-200"
+            />
             <div className="hidden sm:block">
               <div className="text-[#047C74] font-bold text-xl leading-tight">
                 Nakshatra Interiors

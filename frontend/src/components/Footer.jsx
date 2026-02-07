@@ -11,9 +11,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-[#047C74] to-[#C68D28] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">N</span>
-              </div>
+              <img 
+                src="https://customer-assets.emergentagent.com/job_home-design-pune/artifacts/czpqaa5j_TRANSPARENT%20LOGO%20FOR%20MULTIPURPOSE%20USE%20%281%29.png"
+                alt="Nakshatra Interiors Logo"
+                className="h-12 w-auto"
+              />
               <div>
                 <div className="text-white font-bold text-lg">
                   Nakshatra Interiors
