@@ -7,6 +7,8 @@ import WhatsAppButton from './components/WhatsAppButton';
 import ConsultationPopup from './components/ConsultationPopup';
 import Home from './pages/Home';
 import About from './pages/About';
+import Portfolio from './pages/Portfolio';
+import ProjectDetail from './pages/ProjectDetail';
 import GetQuote from './pages/GetQuote';
 import Testimonials from './pages/Testimonials';
 import Contact from './pages/Contact';
@@ -22,6 +24,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/portfolio/:id" element={<ProjectDetail />} />
           <Route path="/get-quote" element={<GetQuote />} />
           <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/contact" element={<Contact />} />

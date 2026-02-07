@@ -52,6 +52,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  to="/portfolio"
+                  className="text-sm hover:text-[#C68D28] transition-colors duration-200"
+                >
+                  Portfolio
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/get-quote"
                   className="text-sm hover:text-[#C68D28] transition-colors duration-200"
                 >

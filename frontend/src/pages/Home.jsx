@@ -87,31 +87,37 @@ const Home = () => {
 
   const portfolio = [
     {
+      id: 1,
       image: 'https://images.unsplash.com/photo-1642541070065-3912f347e7c6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBiZWRyb29tfGVufDB8fHx8MTc3MDQ5MzcwMHww&ixlib=rb-4.1.0&q=85',
       title: '2BHK – Wakad, Pune',
       description: 'Contemporary bedroom with elegant design'
     },
     {
+      id: 2,
       image: 'https://images.unsplash.com/photo-1556912167-f556f1f39fdf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzR8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBraXRjaGVufGVufDB8fHx8MTc3MDQ5MzcwNXww&ixlib=rb-4.1.0&q=85',
       title: '3BHK – Hinjewadi, Pune',
       description: 'Modern kitchen with smart storage'
     },
     {
+      id: 3,
       image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwxfHxsaXZpbmclMjByb29tfGVufDB8fHx8MTc3MDQ5MzcxMHww&ixlib=rb-4.1.0&q=85',
       title: '2BHK – Baner, Pune',
       description: 'Warm living room with cozy atmosphere'
     },
     {
+      id: 4,
       image: 'https://images.unsplash.com/photo-1653974123568-b5eff6d851e1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBiZWRyb29tfGVufDB8fHx8MTc3MDQ5MzcwMHww&ixlib=rb-4.1.0&q=85',
       title: '1BHK – Kharadi, Pune',
       description: 'Minimalist bedroom with modern touches'
     },
     {
+      id: 5,
       image: 'https://images.unsplash.com/photo-1628745277862-bc0b2d68c50c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzR8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBraXRjaGVufGVufDB8fHx8MTc3MDQ5MzcwNXww&ixlib=rb-4.1.0&q=85',
       title: '3BHK – Viman Nagar, Pune',
       description: 'Sleek kitchen with island design'
     },
     {
+      id: 6,
       image: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwyfHxsaXZpbmclMjByb29tfGVufDB8fHx8MTc3MDQ5MzcxMHww&ixlib=rb-4.1.0&q=85',
       title: '2BHK – Aundh, Pune',
       description: 'Elegant living space with natural light'
@@ -312,11 +318,9 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {portfolio.map((project, index) => (
-              <a
+              <div
                 key={index}
-                href={project.image}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => handleProjectClick(project.id)}
                 className="group relative overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
               >
                 <div className="aspect-w-4 aspect-h-3 overflow-hidden">
@@ -336,8 +340,18 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <button
+              onClick={() => navigate('/portfolio')}
+              className="bg-[#047C74] hover:bg-[#036860] text-white px-8 py-3 rounded-lg font-medium inline-flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <span>View All Projects</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </section>
