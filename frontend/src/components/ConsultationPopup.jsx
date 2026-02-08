@@ -236,14 +236,16 @@ const ConsultationPopup = () => {
               <span>{isSubmitting ? 'Sending Request...' : 'Submit & Get Callback'}</span>
             </button>
 
-            <button
-              onClick={handleWhatsAppClick}
-              type="button"
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleClose}
               className="w-full bg-[#25D366] hover:bg-[#20BA5A] text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
             >
               <MessageCircle className="w-5 h-5" />
               <span>Chat on WhatsApp Instead</span>
-            </button>
+            </a>
           </div>
         </form>
 
