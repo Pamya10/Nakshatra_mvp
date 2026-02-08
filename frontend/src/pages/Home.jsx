@@ -142,6 +142,13 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title={pageSEO.home.title}
+        description={pageSEO.home.description}
+        keywords={pageSEO.home.keywords}
+        canonicalUrl="https://nakshtrainterior.com/"
+      />
+      
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-gradient-to-b from-[#E7D49E]/20 to-white">
         {/* Decorative elements */}
