@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ReactCompareImage from 'react-compare-image';
+import React from 'react';
+import CompareImage from 'react-compare-image';
 
 const BeforeAfterSlider = ({ beforeImage, afterImage, title }) => {
   return (
@@ -10,7 +10,7 @@ const BeforeAfterSlider = ({ beforeImage, afterImage, title }) => {
         </h3>
       )}
       <div className="rounded-xl overflow-hidden shadow-2xl">
-        <ReactCompareImage
+        <CompareImage
           leftImage={beforeImage}
           rightImage={afterImage}
           sliderLineColor="#047C74"
