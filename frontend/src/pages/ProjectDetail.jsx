@@ -4,6 +4,7 @@ import { MapPin, Home, Calendar, DollarSign, Clock, ArrowLeft, X, Play, ArrowLef
 import { projects } from '../data/mockProjects';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEO from '../components/SEO';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 // Helper function to extract YouTube video ID
 const getYouTubeVideoId = (url) => {
