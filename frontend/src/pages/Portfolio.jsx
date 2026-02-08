@@ -4,6 +4,7 @@ import { MapPin, Home, Calendar, ArrowRight, Play } from 'lucide-react';
 import { projects } from '../data/mockProjects';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import SEO, { pageSEO } from '../components/SEO';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 const Portfolio = () => {
   const navigate = useNavigate();
