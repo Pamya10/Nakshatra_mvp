@@ -22,15 +22,42 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate form
-    if (!formData.name || !formData.phone || !formData.email) {
-      toast.error('Please fill in all required fields');
+    // Validate name (should not be numeric, should contain only letters and spaces)
+    if (!formData.name.trim()) {
+      toast.error('Please enter your name');
+      return;
+    }
+    if (!/^[a-zA-Z\s]+$/.test(formData.name.trim())) {
+      toast.error('Name should contain only letters');
+      return;
+    }
+    if (formData.name.trim().length < 2) {
+      toast.error('Name should be at least 2 characters');
       return;
     }
 
-    // Validate email format
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      toast.error('Please enter a valid email address');
+    // Validate phone number (should be exactly 10 digits)
+    if (!formData.phone.trim()) {
+      toast.error('Please enter your phone number');
+      return;
+    }
+    const phoneDigits = formData.phone.replace(/\D/g, ''); // Remove non-digits
+    if (phoneDigits.length !== 10) {
+      toast.error('Phone number must be exactly 10 digits');
+      return;
+    }
+    if (!/^[6-9]\d{9}$/.test(phoneDigits)) {
+      toast.error('Please enter a valid Indian mobile number');
+      return;
+    }
+
+    // Validate email
+    if (!formData.email.trim()) {
+      toast.error('Please enter your email address');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      toast.error('Please enter a valid email address (e.g., name@example.com)');
       return;
     }
 
@@ -45,18 +72,18 @@ const Contact = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          Name: formData.name,
-          Phone: formData.phone,
-          Email: formData.email,
-          City: formData.city,
-          Requirements: formData.message,
+          Name: formData.name.trim(),
+          Phone: phoneDigits,
+          Email: formData.email.trim().toLowerCase(),
+          City: formData.city.trim(),
+          Requirements: formData.message.trim(),
           Source: 'Contact Form - Website',
           Timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
           _subject: '🏠 New Inquiry - Nakshatra Interiors Website',
           _template: 'table',
           _captcha: false,
           _cc: '',
-          _autoresponse: `Dear ${formData.name},\n\nThank you for contacting Nakshatra Interiors!\n\nWe have received your inquiry and our team will get back to you within 24 hours with design ideas and cost estimates.\n\nYour Details:\nName: ${formData.name}\nPhone: ${formData.phone}\nCity: ${formData.city}\n\nIn the meantime, feel free to:\n• Browse our portfolio: nakshtrainterior.com/portfolio\n• Use our cost calculator: nakshtrainterior.com/cost-calculator\n• Check our FAQ: nakshtrainterior.com/faq\n• Chat with us: wa.me/918999100590\n\nBest regards,\nNakshatra Interiors Team\n"Adding aesthetics to life"\n\n📱 +91 8999100590 | +91 7709596817\n📧 interiorsbynakshatra@gmail.com\n🌐 nakshtrainterior.com\n📍 Serving PAN Maharashtra`
+          _autoresponse: `Dear ${formData.name.trim()},\n\nThank you for contacting Nakshatra Interiors!\n\nWe have received your inquiry and our team will get back to you within 24 hours with design ideas and cost estimates.\n\nYour Details:\nName: ${formData.name.trim()}\nPhone: ${phoneDigits}\nCity: ${formData.city.trim()}\n\nIn the meantime, feel free to:\n• Browse our portfolio: nakshtrainterior.com/portfolio\n• Use our cost calculator: nakshtrainterior.com/cost-calculator\n• Check our FAQ: nakshtrainterior.com/faq\n• Chat with us: wa.me/918999100590\n\nBest regards,\nNakshatra Interiors Team\n"Adding aesthetics to life"\n\n📱 +91 8999100590 | +91 7709596817\n📧 interiorsbynakshatra@gmail.com\n🌐 nakshtrainterior.com\n📍 Serving PAN Maharashtra`
         })
       });
 
@@ -188,12 +215,6 @@ const Contact = () => {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Name *
-                  </label>
                   <input
                     type="text"
                     id="name"
@@ -203,6 +224,10 @@ const Contact = () => {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent transition-all duration-200"
                     placeholder="Your full name"
+                    pattern="[A-Za-z\s]+"
+                    title="Name should contain only letters"
+                    minLength="2"
+                    maxLength="50"
                   />
                 </div>
 
@@ -221,7 +246,10 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent transition-all duration-200"
-                    placeholder="+91 XXXXX XXXXX"
+                    placeholder="10-digit mobile number"
+                    pattern="[6-9][0-9]{9}"
+                    title="Please enter a valid 10-digit Indian mobile number"
+                    maxLength="10"
                   />
                 </div>
 
@@ -241,6 +269,8 @@ const Contact = () => {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent transition-all duration-200"
                     placeholder="your.email@example.com"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Please enter a valid email address"
                   />
                 </div>
 

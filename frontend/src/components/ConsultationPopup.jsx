@@ -51,14 +51,41 @@ const ConsultationPopup = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate
-    if (!formData.name || !formData.phone || !formData.email) {
-      toast.error('Please fill in all fields');
+    // Validate name (should not be numeric, should contain only letters and spaces)
+    if (!formData.name.trim()) {
+      toast.error('Please enter your name');
+      return;
+    }
+    if (!/^[a-zA-Z\s]+$/.test(formData.name.trim())) {
+      toast.error('Name should contain only letters');
+      return;
+    }
+    if (formData.name.trim().length < 2) {
+      toast.error('Name should be at least 2 characters');
+      return;
+    }
+
+    // Validate phone number (should be exactly 10 digits)
+    if (!formData.phone.trim()) {
+      toast.error('Please enter your phone number');
+      return;
+    }
+    const phoneDigits = formData.phone.replace(/\D/g, ''); // Remove non-digits
+    if (phoneDigits.length !== 10) {
+      toast.error('Phone number must be exactly 10 digits');
+      return;
+    }
+    if (!/^[6-9]\d{9}$/.test(phoneDigits)) {
+      toast.error('Please enter a valid Indian mobile number starting with 6-9');
       return;
     }
 
     // Validate email
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    if (!formData.email.trim()) {
+      toast.error('Please enter your email address');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       toast.error('Please enter a valid email address');
       return;
     }
@@ -74,9 +101,9 @@ const ConsultationPopup = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          'Name': formData.name,
-          'Phone': formData.phone,
-          'Email': formData.email,
+          'Name': formData.name.trim(),
+          'Phone': phoneDigits,
+          'Email': formData.email.trim().toLowerCase(),
           'Request Type': 'FREE CONSULTATION',
           'Lead Source': 'Consultation Popup (10 sec)',
           'Timestamp': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
@@ -84,7 +111,7 @@ const ConsultationPopup = () => {
           _subject: '📅 URGENT: Free Consultation Request - Nakshatra Interiors',
           _template: 'table',
           _captcha: false,
-          _autoresponse: `Dear ${formData.name},\n\nThank you for requesting a free consultation with Nakshatra Interiors!\n\nOur design team will contact you at ${formData.phone} within 24 hours to schedule your personalized consultation.\n\nDuring the consultation, we will:\n• Understand your home requirements\n• Show you our completed projects\n• Discuss design ideas and styles\n• Provide accurate cost estimates\n• Answer all your questions\n\nFor immediate assistance:\n📱 WhatsApp: +91 8999100590\n📧 Email: interiorsbynakshatra@gmail.com\n🌐 Website: nakshtrainterior.com\n\nBest regards,\nNakshatra Interiors Team\n"Adding aesthetics to life"`
+          _autoresponse: `Dear ${formData.name.trim()},\n\nThank you for requesting a free consultation with Nakshatra Interiors!\n\nOur design team will contact you at ${phoneDigits} within 24 hours to schedule your personalized consultation.\n\nDuring the consultation, we will:\n• Understand your home requirements\n• Show you our completed projects\n• Discuss design ideas and styles\n• Provide accurate cost estimates\n• Answer all your questions\n\nFor immediate assistance:\n📱 WhatsApp: +91 8999100590\n📧 Email: interiorsbynakshatra@gmail.com\n🌐 Website: nakshtrainterior.com\n\nBest regards,\nNakshatra Interiors Team\n"Adding aesthetics to life"`
         })
       });
 
@@ -143,6 +170,10 @@ const ConsultationPopup = () => {
               placeholder="Your Name *"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent"
+              pattern="[A-Za-z\s]+"
+              title="Name should contain only letters"
+              minLength="2"
+              maxLength="50"
             />
           </div>
           <div>
@@ -151,9 +182,12 @@ const ConsultationPopup = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Phone Number *"
+              placeholder="10-digit Mobile Number *"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent"
+              pattern="[6-9][0-9]{9}"
+              title="Please enter a valid 10-digit Indian mobile number"
+              maxLength="10"
             />
           </div>
           <div>
@@ -165,6 +199,8 @@ const ConsultationPopup = () => {
               placeholder="Email Address *"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              title="Please enter a valid email address"
             />
           </div>
 
