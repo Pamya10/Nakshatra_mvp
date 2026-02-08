@@ -220,19 +220,15 @@ const CostCalculator = () => {
                 </p>
               </div>
 
-              <button
-                onClick={() => {
-                  const phoneNumber = '918999100590';
-                  const message = encodeURIComponent(
-                    `Hi Nakshatra Interiors, I used your cost calculator. I'm interested in ${bhkType.toUpperCase()} ${customization} interiors in ${city}. My estimated budget is ${formatCurrency(result.estimated)}. Please provide a detailed quote.`
-                  );
-                  window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
-                }}
+              <a
+                href={getWhatsAppUrl(`Hi Nakshatra Interiors, I used your cost calculator. I'm interested in ${bhkType.toUpperCase()} ${customization} interiors in ${city}. My estimated budget is ${formatCurrency(result.estimated)}. Please provide a detailed quote.`)}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full bg-white text-[#047C74] hover:bg-gray-100 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2"
               >
                 <span>Get Detailed Quote on WhatsApp</span>
                 <ArrowRight className="w-5 h-5" />
-              </button>
+              </a>
             </div>
           )}
         </div>
