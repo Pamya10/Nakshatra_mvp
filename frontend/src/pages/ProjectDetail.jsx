@@ -196,17 +196,19 @@ const ProjectDetail = () => {
           {/* Videos Section (if available) */}
           {project.videos && project.videos.length > 0 && (
             <div className="mt-12">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Project Videos</h3>
+              <div className="flex items-center mb-6">
+                <Play className="w-6 h-6 text-[#047C74] mr-2" />
+                <h3 className="text-2xl font-bold text-gray-900">Project Videos</h3>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {project.videos.map((video, index) => (
-                  <div key={index} className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-lg">
-                    <video
-                      controls
-                      className="w-full h-full object-cover"
-                      src={video}
-                    >
-                      Your browser does not support the video tag.
-                    </video>
+                  <div key={index} className="space-y-2">
+                    <VideoPlayer video={video} />
+                    {video.title && (
+                      <p className="text-sm font-medium text-gray-700 text-center">
+                        {video.title}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
