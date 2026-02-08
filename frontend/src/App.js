@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
+import { ConsultationProvider } from './context/ConsultationContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -19,24 +20,26 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
-        <Toaster position="top-right" richColors />
-        <ConsultationPopup />
-        <WhatsAppButton />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/portfolio/:id" element={<ProjectDetail />} />
-          <Route path="/get-quote" element={<GetQuote />} />
-          <Route path="/testimonials" element={<Testimonials />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/cost-calculator" element={<CostCalculator />} />
-          {/* Catch-all route - redirect to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        <Footer />
+        <ConsultationProvider>
+          <Navbar />
+          <Toaster position="top-right" richColors />
+          <ConsultationPopup />
+          <WhatsAppButton />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/portfolio/:id" element={<ProjectDetail />} />
+            <Route path="/get-quote" element={<GetQuote />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/cost-calculator" element={<CostCalculator />} />
+            {/* Catch-all route - redirect to home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          <Footer />
+        </ConsultationProvider>
       </BrowserRouter>
     </div>
   );
