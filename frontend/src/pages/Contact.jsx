@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Phone, Mail, Instagram, MapPin, Send, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import SEO, { pageSEO } from '../components/SEO';
+import { getWhatsAppUrl } from '../utils/whatsapp';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
