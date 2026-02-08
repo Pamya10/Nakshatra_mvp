@@ -93,6 +93,14 @@ const ProjectDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO 
+        title={`${project.title} | Interior Design Project | Nakshatra Interiors`}
+        description={`${project.description} ${project.type} interior design project in ${project.location}. Budget: ${project.budget}. View photos, videos, and before/after transformation.`}
+        keywords={`${project.type} interior design ${project.location}, home interior ${project.location.split(',')[0].toLowerCase()}, ${project.type} flat interior pune, modular kitchen ${project.location.split(',')[0].toLowerCase()}`}
+        canonicalUrl={`https://nakshtrainterior.com/portfolio/${project.id}`}
+        ogImage={project.thumbnailImage}
+      />
+      
       {/* Hero Section */}
       <section className="relative pt-24 pb-8 md:pt-32 md:pb-12 bg-gradient-to-b from-[#E7D49E]/20 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
