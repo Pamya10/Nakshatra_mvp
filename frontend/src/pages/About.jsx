@@ -1,5 +1,6 @@
 import React from 'react';
 import { Users, Target, Heart, Lightbulb, Handshake, TrendingUp } from 'lucide-react';
+import SEO, { pageSEO } from '../components/SEO';
 
 const About = () => {
   const values = [

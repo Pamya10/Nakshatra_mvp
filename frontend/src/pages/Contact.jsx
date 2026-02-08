@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Phone, Mail, Instagram, MapPin, Send, MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import SEO, { pageSEO } from '../components/SEO';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
