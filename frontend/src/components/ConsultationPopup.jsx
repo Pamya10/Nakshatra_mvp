@@ -6,6 +6,11 @@ const ConsultationPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenShown, setHasBeenShown] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: ''
+  });
 
   useEffect(() => {
     // Check if popup has been shown in this session
@@ -26,6 +31,13 @@ const ConsultationPopup = () => {
     setIsVisible(false);
   };
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   const handleWhatsAppClick = () => {
     const phoneNumber = '918999100590';
     const message = encodeURIComponent(
@@ -36,11 +48,25 @@ const ConsultationPopup = () => {
     handleClose();
   };
 
-  const handleFormClick = async () => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validate
+    if (!formData.name || !formData.phone || !formData.email) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    // Validate email
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
-      // Send notification to FormSubmit
+      // Send to FormSubmit with ALL details
       const response = await fetch('https://formsubmit.co/ajax/interiorsbynakshatra@gmail.com', {
         method: 'POST',
         headers: {
@@ -48,14 +74,17 @@ const ConsultationPopup = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          'Lead Source': 'Consultation Popup - 10 sec',
-          'Request': 'Free Consultation Callback',
+          'Name': formData.name,
+          'Phone': formData.phone,
+          'Email': formData.email,
+          'Request Type': 'FREE CONSULTATION',
+          'Lead Source': 'Consultation Popup (10 sec)',
           'Timestamp': new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-          'Status': 'New - Urgent',
-          _subject: '📅 URGENT: New Consultation Request - Nakshatra Interiors',
+          'Status': '🔥 HOT LEAD - IMMEDIATE CALLBACK NEEDED',
+          _subject: '📅 URGENT: Free Consultation Request - Nakshatra Interiors',
           _template: 'table',
           _captcha: false,
-          _autoresponse: 'Thank you for requesting a free consultation with Nakshatra Interiors!\n\nOur design team will contact you within 24 hours to schedule your personalized consultation where we will:\n• Understand your requirements\n• Show you our portfolio\n• Discuss design ideas\n• Provide accurate cost estimates\n• Answer all your questions\n\nFor immediate assistance:\n📱 WhatsApp: +91 8999100590\n📧 Email: interiorsbynakshatra@gmail.com\n🌐 Website: nakshtrainterior.com\n\nBest regards,\nNakshatra Interiors Team\n"Adding aesthetics to life"'
+          _autoresponse: `Dear ${formData.name},\n\nThank you for requesting a free consultation with Nakshatra Interiors!\n\nOur design team will contact you at ${formData.phone} within 24 hours to schedule your personalized consultation.\n\nDuring the consultation, we will:\n• Understand your home requirements\n• Show you our completed projects\n• Discuss design ideas and styles\n• Provide accurate cost estimates\n• Answer all your questions\n\nFor immediate assistance:\n📱 WhatsApp: +91 8999100590\n📧 Email: interiorsbynakshatra@gmail.com\n🌐 Website: nakshtrainterior.com\n\nBest regards,\nNakshatra Interiors Team\n"Adding aesthetics to life"`
         })
       });
 
@@ -99,33 +128,71 @@ const ConsultationPopup = () => {
             Book a Free Interior Design Consultation
           </h2>
           <p className="text-gray-600 text-sm">
-            Share a few details and we'll call you back within 24 hours with ideas and estimates for your dream home.
+            Share your details and we'll call you within 24 hours with ideas and estimates for your dream home.
           </p>
         </div>
 
-        {/* Buttons */}
-        <div className="space-y-3">
-          <button
-            onClick={handleFormClick}
-            disabled={isSubmitting}
-            className={`w-full py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2 ${
-              isSubmitting
-                ? 'bg-gray-400 cursor-not-allowed text-white'
-                : 'bg-[#047C74] hover:bg-[#036860] text-white'
-            }`}
-          >
-            <Calendar className="w-5 h-5" />
-            <span>{isSubmitting ? 'Sending Request...' : 'Submit & Get Callback'}</span>
-          </button>
+        {/* Form Fields */}
+        <form onSubmit={handleFormSubmit} className="space-y-4 mb-4">
+          <div>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Your Name *"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent"
+            />
+          </div>
+          <div>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone Number *"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent"
+            />
+          </div>
+          <div>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email Address *"
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#047C74] focus:border-transparent"
+            />
+          </div>
 
-          <button
-            onClick={handleWhatsAppClick}
-            className="w-full bg-[#25D366] hover:bg-[#20BA5A] text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
-          >
-            <MessageCircle className="w-5 h-5" />
-            <span>Chat on WhatsApp Instead</span>
-          </button>
-        </div>
+          {/* Buttons */}
+          <div className="space-y-3">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`w-full py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2 ${
+                isSubmitting
+                  ? 'bg-gray-400 cursor-not-allowed text-white'
+                  : 'bg-[#047C74] hover:bg-[#036860] text-white'
+              }`}
+            >
+              <Calendar className="w-5 h-5" />
+              <span>{isSubmitting ? 'Sending Request...' : 'Submit & Get Callback'}</span>
+            </button>
+
+            <button
+              onClick={handleWhatsAppClick}
+              type="button"
+              className="w-full bg-[#25D366] hover:bg-[#20BA5A] text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span>Chat on WhatsApp Instead</span>
+            </button>
+          </div>
+        </form>
 
         <p className="text-xs text-gray-500 text-center mt-4">
           By submitting, you agree to be contacted by Nakshatra Interiors
