@@ -270,13 +270,15 @@ const Home = () => {
                 <p className="text-gray-600 text-sm leading-relaxed mb-4">
                   {service.description}
                 </p>
-                <button
-                  onClick={handleWhatsAppClick}
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[#047C74] font-medium text-sm flex items-center space-x-1 hover:space-x-2 transition-all duration-200"
                 >
                   <span>Talk to a designer</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </a>
               </div>
             ))}
           </div>
