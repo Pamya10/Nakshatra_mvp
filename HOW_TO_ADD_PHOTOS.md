@@ -202,24 +202,79 @@ images: [
 
 ### **13. videos** (Optional - project videos)
 
+The website now supports **YouTube**, **Vimeo**, and **direct video files**!
+
 ```javascript
 videos: [
-  'https://your-video-url.mp4',
-  'https://another-video-url.mp4'
+  { type: 'youtube', url: 'https://www.youtube.com/watch?v=VIDEO_ID', title: 'Project Walkthrough' },
+  { type: 'vimeo', url: 'https://vimeo.com/VIDEO_ID', title: 'Kitchen Tour' },
+  { type: 'direct', url: 'https://your-server.com/video.mp4', title: 'Living Room' }
 ]
 ```
 
 **What it is:**
 - Video walkthroughs of project
 - Optional (leave empty if no videos)
-- Shows below photo gallery
+- Shows below photo gallery on project detail page
+- Shows "Video" badge on portfolio cards
 
-**How to add videos:**
-1. Upload video to YouTube
-2. Use direct video file URL (not YouTube link)
-3. Or use video hosting like Vimeo
+---
 
-**If no videos:**
+### **How to Add YouTube Videos (Easiest):**
+
+1. **Upload your video to YouTube**
+2. **Copy the video URL** (e.g., `https://www.youtube.com/watch?v=ABC123xyz`)
+3. **Add to your project:**
+   ```javascript
+   videos: [
+     { type: 'youtube', url: 'https://www.youtube.com/watch?v=ABC123xyz', title: 'Project Walkthrough' }
+   ]
+   ```
+
+**YouTube Short Links also work:**
+- `https://youtu.be/ABC123xyz`
+
+---
+
+### **How to Add Vimeo Videos:**
+
+1. **Upload your video to Vimeo**
+2. **Copy the video URL** (e.g., `https://vimeo.com/123456789`)
+3. **Add to your project:**
+   ```javascript
+   videos: [
+     { type: 'vimeo', url: 'https://vimeo.com/123456789', title: 'Design Overview' }
+   ]
+   ```
+
+---
+
+### **How to Add Direct Video Files:**
+
+If you have video files hosted on your own server or cloud storage:
+
+```javascript
+videos: [
+  { type: 'direct', url: 'https://storage.cloud.com/your-video.mp4', title: 'Room Tour' }
+]
+```
+
+**Supported formats:** MP4, WebM, OGG
+
+---
+
+### **Multiple Videos Example:**
+
+```javascript
+videos: [
+  { type: 'youtube', url: 'https://www.youtube.com/watch?v=ABC123', title: 'Full Project Walkthrough' },
+  { type: 'youtube', url: 'https://www.youtube.com/watch?v=XYZ789', title: 'Kitchen Close-up' }
+]
+```
+
+---
+
+### **If No Videos (leave empty):**
 ```javascript
 videos: []
 ```
