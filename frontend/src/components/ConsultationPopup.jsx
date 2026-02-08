@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, MessageCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ConsultationPopup = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenShown, setHasBeenShown] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // Check if popup has been shown in this session
@@ -34,11 +36,42 @@ const ConsultationPopup = () => {
     handleClose();
   };
 
-  const handleFormClick = () => {
-    // Placeholder Google Form - to be replaced by owner
-    const formUrl = 'https://forms.google.com/YOUR_FORM_ID_HERE';
-    window.open(formUrl, '_blank');
-    handleClose();
+  const handleFormClick = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      // Send notification to FormSubmit
+      const response = await fetch('https://formsubmit.co/ajax/interiorsbynakshatra@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          source: 'Consultation Popup',
+          timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+          _subject: '📅 New Consultation Request - Nakshatra Interiors',
+          _template: 'table',
+          _captcha: false,
+          _autoresponse: 'Thank you for requesting a consultation! Our team will contact you within 24 hours to schedule your free design consultation.\n\nBest regards,\nNakshatra Interiors\n"Adding aesthetics to life"'
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        toast.success('Request received! We\'ll call you within 24 hours.');
+        handleClose();
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Consultation request error:', error);
+      toast.error('Please use WhatsApp to book consultation.');
+      handleWhatsAppClick();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isVisible) return null;
@@ -72,10 +105,15 @@ const ConsultationPopup = () => {
         <div className="space-y-3">
           <button
             onClick={handleFormClick}
-            className="w-full bg-[#047C74] hover:bg-[#036860] text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
+            disabled={isSubmitting}
+            className={`w-full py-3 px-6 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2 ${
+              isSubmitting
+                ? 'bg-gray-400 cursor-not-allowed text-white'
+                : 'bg-[#047C74] hover:bg-[#036860] text-white'
+            }`}
           >
             <Calendar className="w-5 h-5" />
-            <span>Submit & Get Callback</span>
+            <span>{isSubmitting ? 'Sending Request...' : 'Submit & Get Callback'}</span>
           </button>
 
           <button

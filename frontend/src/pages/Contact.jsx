@@ -10,6 +10,7 @@ const Contact = () => {
     city: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,7 +19,7 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validate form
@@ -27,29 +28,57 @@ const Contact = () => {
       return;
     }
 
-    // For now, open Google Form in new tab (to be replaced by owner)
-    // Alternative: Use mailto to send email
-    const subject = encodeURIComponent('Interior Design Inquiry');
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nCity: ${formData.city}\nMessage: ${formData.message}`
-    );
-    
-    // Option 1: Open mailto (uncomment to use)
-    // window.location.href = `mailto:interiorsbynakshatra@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Option 2: Open placeholder Google Form (default)
-    window.open('https://forms.google.com/YOUR_FORM_ID_HERE', '_blank');
-    
-    toast.success('Thank you! We\'ll get back to you within 24 hours.');
-    
-    // Reset form
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      city: '',
-      message: ''
-    });
+    // Validate email format
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Send to FormSubmit
+      const response = await fetch('https://formsubmit.co/ajax/interiorsbynakshatra@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          city: formData.city,
+          message: formData.message,
+          _subject: '🏠 New Inquiry - Nakshatra Interiors Website',
+          _template: 'table',
+          _captcha: false,
+          _autoresponse: `Hello ${formData.name},\n\nThank you for contacting Nakshatra Interiors! We've received your inquiry and will get back to you within 24 hours.\n\nIn the meantime, feel free to:\n- Browse our portfolio: nakshtrainterior.com/portfolio\n- Check our FAQ: nakshtrainterior.com/faq\n- Chat with us: wa.me/918999100590\n\nBest regards,\nNakshatra Interiors Team\n"Adding aesthetics to life"\n📱 +91 8999100590\n📧 interiorsbynakshatra@gmail.com`
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        toast.success('Thank you! We\'ll get back to you within 24 hours.');
+        
+        // Reset form
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          city: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast.error('Something went wrong. Please try WhatsApp: +91 8999100590');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleWhatsAppClick = () => {
@@ -250,10 +279,15 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-[#047C74] hover:bg-[#036860] text-white py-4 rounded-lg font-medium flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                  disabled={isSubmitting}
+                  className={`w-full py-4 rounded-lg font-medium flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ${
+                    isSubmitting
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-[#047C74] hover:bg-[#036860] text-white'
+                  }`}
                 >
                   <Send className="w-5 h-5" />
-                  <span>Submit Inquiry</span>
+                  <span>{isSubmitting ? 'Sending...' : 'Submit Inquiry'}</span>
                 </button>
               </form>
 
