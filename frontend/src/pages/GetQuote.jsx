@@ -69,13 +69,15 @@ const GetQuote = () => {
             Transparent pricing, detailed 3D designs, and personalized solutions for your dream home. Start your interior design journey today!
           </p>
 
-          <button
-            onClick={handleWhatsAppClick}
-            className="bg-[#25D366] hover:bg-[#20BA5A] text-white px-10 py-5 rounded-lg font-medium text-lg flex items-center justify-center space-x-3 mx-auto shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#25D366] hover:bg-[#20BA5A] text-white px-10 py-5 rounded-lg font-medium text-lg inline-flex items-center justify-center space-x-3 mx-auto shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
           >
             <MessageCircle className="w-6 h-6" />
             <span>Get Quote on WhatsApp</span>
-          </button>
+          </a>
         </div>
       </section>
 
